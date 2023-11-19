@@ -10,7 +10,7 @@ strict: false
 
 datasets:
   - path: Eichhof/einstein-llama
-    type: alpaca
+    type: completion
     field: text
 dataset_prepared_path: last_run_prepared
 hub_model_id: Eichhof/einstein-llama
