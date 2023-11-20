@@ -129,6 +129,11 @@ class QuantAutoGPTQ:
         model.save_quantized(output_dir, use_safetensors=True)
         self.logger.info("Done.")
 
+        self.logger.info("Saving quantized model to Huggingface")
+        model.push_to_hub("Eichhof/Llama-2-13B-Einstein-GPTQ")
+        self.tokenizer.push_to_hub("Eichhof/Llama-2-13B-Einstein-GPTQ")
+        self.logger.info("Done.")
+
     def run_quantization(self):
         if self.dataset == 'wikitext':
             traindataset = self.get_wikitext2()
