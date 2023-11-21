@@ -9,7 +9,7 @@ class QuantAutoGPTQ:
                  num_samples=128, trust_remote_code=False, cache_examples=True,
                  use_fast=True, use_triton=False, bits=[4], group_size=[128], damp=[0.01],
                  desc_act=[False], dtype='float16', seqlen=2048, batch_size=1, stop_file=None,
-                 make_folder=False, GPU=0, cuda_alloc_conf=None):
+                 make_folder=False, GPU=0, cuda_alloc_conf=None, huggingface_id=""):
 
         self.pretrained_model_dir = model_name_or_path
         self.output_dir_base = output_dir
@@ -33,6 +33,7 @@ class QuantAutoGPTQ:
         self.batch_size = batch_size
         self.stop_file = stop_file 
         self.make_folder = make_folder
+        self.huggingface_id = huggingface_id
 
         self.logger = logging.getLogger(__name__)
         self.logger.propagate = True
@@ -129,10 +130,11 @@ class QuantAutoGPTQ:
         model.save_quantized(output_dir, use_safetensors=True)
         self.logger.info("Done.")
 
-        self.logger.info("Saving quantized model to Huggingface")
-        model.push_to_hub("Eichhof/Llama-2-13B-Einstein-GPTQ")
-        self.tokenizer.push_to_hub("Eichhof/Llama-2-13B-Einstein-GPTQ")
-        self.logger.info("Done.")
+        if self.huggingface_id:
+            self.logger.info("Saving quantized model to Huggingface")
+            model.push_to_hub(self.huggingface_id)
+            self.tokenizer.push_to_hub(self.huggingface_id)
+            self.logger.info("Done.")
 
     def run_quantization(self):
         if self.dataset == 'wikitext':
@@ -214,6 +216,7 @@ if __name__ == "__main__":
     parser.add_argument('--batch_size', type=int, default=1, help='Quantize batch size for processing dataset samples')
     parser.add_argument('--stop_file', type=str, help='Filename to look for to stop inference, specific to this instance')
     parser.add_argument('--make_folders', action="store_true", help='Make folders for each quantization using params in folder name')
+    parser.add_argument('--huggingface_id', type=str, default="", help='Huggingface ID to push model to hub')
 
     args = parser.parse_args()
     quantizer = QuantAutoGPTQ(args.pretrained_model_dir,
@@ -232,5 +235,6 @@ if __name__ == "__main__":
                               seqlen=args.seqlen,
                               batch_size=args.batch_size,
                               stop_file=args.stop_file,
-                              make_folder=args.make_folders)
+                              make_folder=args.make_folders,
+                              huggingface_id=args.huggingface_id)
     quantizer.run_quantization()
