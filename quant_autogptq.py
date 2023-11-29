@@ -4,6 +4,8 @@ import logging
 import random
 from datasets import load_dataset
 
+# OMP_NUM_THREADS=16 OPENBLAS_NUM_THREADS=16 MKL_NUM_THREADS=16 VECLIB_MAXIMUM_THREADS=16 NUMEXPR_NUM_THREADS=16  CUDA_VISIBLE_DEVICES=0 python3 quant_autogptq.py Eichhof/Llama-2-13B-Einstein ./output-gptq wikitext --bits 4 --group_size 128 --desc_act 1 --damp 0.1 --dtype float16 --seqlen 4096 --num_samples 128  --use_fast --cache_examples 1 --huggingface_id Eichhof/Llama-2-13B-Einstein-GPTQ-Wikitext
+
 class QuantAutoGPTQ:
     def __init__(self, model_name_or_path, output_dir, dataset,
                  num_samples=128, trust_remote_code=False, cache_examples=True,
