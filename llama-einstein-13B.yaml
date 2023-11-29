@@ -13,7 +13,7 @@ datasets:
     type: completion
     field: text
 dataset_prepared_path: last_run_prepared
-hub_model_id: Eichhof/Llama-2-13B-Einstein-GPTQ
+hub_model_id: Eichhof/Llama-2-13b-hf-Einstein
 val_set_size: 0.01
 output_dir: ./qlora-out
 
@@ -35,7 +35,7 @@ wandb_project: "llama-einstein"
 wandb_entity:
 wandb_watch:
 wandb_run_id:
-wandb_log_model:
+wandb_log_model: "checkpoint"
 
 gradient_accumulation_steps: 4
 micro_batch_size: 2
