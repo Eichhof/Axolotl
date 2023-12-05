@@ -1,5 +1,5 @@
-base_model: meta-llama/Llama-2-13b-hf
-base_model_config: meta-llama/Llama-2-13b-hf
+base_model: meta-llama/Llama-2-13b-chat-hf
+base_model_config: meta-llama/Llama-2-13b-chat-hf
 model_type: LlamaForCausalLM
 tokenizer_type: LlamaTokenizer
 is_llama_derived_model: true
@@ -13,7 +13,7 @@ datasets:
     type: completion
     field: text
 dataset_prepared_path: last_run_prepared
-hub_model_id: Eichhof/Llama-2-13b-hf-Einstein
+hub_model_id: Eichhof/Llama-2-13b-chat-hf-Einstein2
 val_set_size: 0.01
 output_dir: ./qlora-out
 
@@ -39,10 +39,10 @@ wandb_log_model: "checkpoint"
 
 gradient_accumulation_steps: 4
 micro_batch_size: 2
-num_epochs: 3
+num_epochs: 5
 optimizer: paged_adamw_32bit
-lr_scheduler: cosine
-learning_rate: 0.0002
+lr_scheduler: constant
+learning_rate: 0.00018
 
 train_on_inputs: false
 group_by_length: false
@@ -58,7 +58,7 @@ logging_steps: 1
 xformers_attention:
 flash_attention: true
 
-warmup_steps: 37
+warmup_steps: 10
 eval_steps: 0.05
 eval_table_size:
 save_steps:
