@@ -13,7 +13,7 @@ datasets:
     type: completion
     field: text
 dataset_prepared_path: last_run_prepared
-hub_model_id: Eichhof/Llama-2-13b-chat-hf-Einstein2
+hub_model_id: Eichhof/Llama-2-13b-chat-hf-Einstein3
 val_set_size: 0.01
 output_dir: ./qlora-out
 
@@ -39,10 +39,10 @@ wandb_log_model: "checkpoint"
 
 gradient_accumulation_steps: 4
 micro_batch_size: 2
-num_epochs: 5
+num_epochs: 3
 optimizer: paged_adamw_32bit
-lr_scheduler: constant
-learning_rate: 0.00018
+lr_scheduler: cosine
+learning_rate: 0.001
 
 train_on_inputs: false
 group_by_length: false
